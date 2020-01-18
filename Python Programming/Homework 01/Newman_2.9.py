@@ -1,3 +1,8 @@
+"""
+Newman Problem 2.9
+
+Madelung Constant For NaCl
+"""
 from numpy import arange
 
 def calculate_madelung(L):

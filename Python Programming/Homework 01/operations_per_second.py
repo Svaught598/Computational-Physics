@@ -1,10 +1,15 @@
+"""
+Problem 1
+
+Floating Point Operations Per Second
+"""
 from time import time
 from numpy.random import random
 import gc
 
 
 
-def operations_per_second(seconds):
+def flops(seconds):
     """calculates the number of operations performed in some length of time:
 
     returns a tuple (
@@ -32,5 +37,5 @@ def operations_per_second(seconds):
         number_of_operations/time_computing_operations,
     )
 
-_, _, flops = operations_per_second(1)
-print(f'floating point operations per second is: {flops}')
+_, _, val = flops(1)
+print(f'floating point operations per second is: {val}')
