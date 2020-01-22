@@ -5,7 +5,6 @@ Floating Point Operations Per Second
 """
 from time import time
 from numpy.random import random
-import gc
 
 
 

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pylab as plt
 
 # initialization
-r = np.arange(1, 4, 0.01)
+r = np.arange(1, 4, 0.005)
 x = np.ones(len(r)) * 0.5
 
 # first 1000 iterations
