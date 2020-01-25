@@ -1,3 +1,9 @@
+"""
+Newman Problem 5.3
+
+Integrating a function from 0 to some number
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
