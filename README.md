@@ -8,7 +8,7 @@ the book 'Computational Physics' by Mark Newman, and some are from
 the instructor directly. Uploaded to help others who are working through
 the problems and get stuck.
 
-### Libraries Used
+### Python Libraries Used
 
 * NumPy
 * MatPlotLib
