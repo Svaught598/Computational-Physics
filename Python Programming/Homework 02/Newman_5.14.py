@@ -33,7 +33,7 @@ def gaussian_quadrature(func, z, a, b, N):
         for j in range(N):
             integral += wp[i]*wp[j]*func(xp[i], xp[j], z)
 
-    return integral * 6.674*1.e-11 * 10 * z
+    return integral * 6.674*1.e-11 * 100 * z
 
 xs = np.linspace(0, 10, 100)
 integrals = [gaussian_quadrature(integrand, i, -5, 5, 100) for i in xs]
