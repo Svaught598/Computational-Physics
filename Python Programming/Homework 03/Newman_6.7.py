@@ -25,15 +25,17 @@ print(v, '\n')
 
 """ Part C ===================================="""
 
+# creating diagonal matrix
 matrix = diags(
-    [[4]*10000, [-1]*9999, [-1]*9999, [-1]*9998, [-1]*9998],
+    [[3]+[4]*9998+[3], [-1]*9999, [-1]*9999, [-1]*9998, [-1]*9998],
     offsets = [0, -1, 1, -2, 2], 
-    shape=(10000, 10000)).toarray()
-matrix[0,0] = matrix[9999,9999] = 3
+    shape=(10000, 10000))
 
+# creating result vector
 w = np.zeros(10000, int)
 w[0] = w[1]  = 5
  
+# solving with 'scipy.linalg.spsolve'
 v = spsolve(matrix, w)
 print('Part C:')
 print(v, '\n')
