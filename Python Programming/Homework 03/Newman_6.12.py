@@ -1,60 +1,36 @@
-"""
+'''
 Newman Problem 6.12
 
 Glycolysis
-"""
-import numpy as np
+'''
+from math import sqrt
 
+def Part_B(x, y, a, b): 
+    newx = lambda x, y: y*(a+x*x)
+    newy = lambda x, y: b/(a+x*x)
+    max_iterations = 1000
+    current_iteration = 0
+    while current_iteration < max_iterations:
+        x, y = newx(x, y), newy(x, y)
+        current_iteration += 1
+    return x, y
 
-""" Part B +++++++++++++++++++++++++++++++++++++++++++++"""
+def Part_C(x, y, a, b):
+    # since x = b analytically, I just replaced a two x's with b's
+    newx = lambda x, y: y*(a+b*x)
+    newy = lambda x, y: b/(a+x*b)
+    
+    max_iterations = 1000
+    current_iteration = 0
+    while current_iteration < max_iterations:
+        x, y = newx(x, y), newy(x, y)
+        current_iteration += 1
+    return x, y
 
-def update_x(x, y):
-    return y*(1 + x*x)
+x, y = Part_B(1, 1, 1, 2)
+print('Part A')
+print(f'x = {x:0.3f} and y = {y:0.3f}\n')
 
-def update_y(x, y):
-    return 2./(1 + x*x)
-
-def relax_bro(init_x, init_y):
-    difference = 1.
-    new_x, new_y = init_x, init_y
-
-    i = 0
-    while difference > 1.e-4 and i < 1.e4:
-        old_x, old_y = new_x, new_y
-        new_x = update_x(old_x, old_y)
-        new_y = update_y(old_x, old_y)
-
-        difference = abs(new_x - old_x) + abs(new_y - old_y)
-        i += 1
-
-    return new_x, new_y, i
-
-x, y, i = relax_bro(1.3, 1.9)
-print(f'x = {x:.3f} and y = {y:.3f} for {i} iterations\n')
-
-
-""" Part C +++++++++++++++++++++++++++++++++++++++++++++"""
-
-def update_x(x, y):
-    return np.sqrt((x - y)/y)
-
-def update_y(x, y):
-    return (2 - y)/(4)
-
-def relax_bro(init_x, init_y):
-    difference = 1.
-    new_x, new_y = init_x, init_y
-
-    i = 0
-    while difference > 1.e-4 and i < 1.e7:
-        old_x, old_y = new_x, new_y
-        new_x = update_x(old_x, old_y)
-        new_y = update_y(old_x, old_y)
-
-        difference = abs(new_x - old_x) + abs(new_y - old_y)
-        i += 1
-
-    return new_x, new_y, i
-
-x, y, i = relax_bro(1.8, .5)
-print(f'x = {x:.3f} and y = {y:.3f} for {i} iterations\n')
+x, y = Part_C(1, 1, 1, 2)
+print('Part B')
+print(f'x = {x:0.3f} and y = {y:0.3f}')
