@@ -4,36 +4,61 @@ Newman Problem 6.17
 Nonlinear Circuits
 """
 import numpy as np
+from numpy.linalg import solve
 
+# constants
+r1 = 1000
+r2 = 4000
+r3 = 3000
+r4 = 2000
+vplus = 5
+vt = 0.05
+Io = 3.e-9
 
-def update_v1(v1, v2):
-    '''function updates v1 from previous v1 & v2'''
-    exponential = np.exp((v1 - v2)/0.05 - 1)
-    fraction = (v1 - 5)/1000
-    return 4000*(fraction + 3.e-9*exponential)
+# junction 1
+def v1_junction(v1, v2):
+    exp = Io*(np.exp((v1 - v2)/vt) - 1)
+    fractions = (v1 - vplus)/r1 + v1/r2
+    return fractions + exp
 
+# junction 2
+def v2_junction(v1, v2):
+    exp = -Io*(np.exp((v1 - v2)/vt) - 1)
+    fractions = (v2 - vplus)/r3 + v2/r4
+    return fractions + exp
 
-def update_v2(v1, v2):
-    '''function updates v2 from previous v1 & v2'''
-    exponential = np.exp((v2 - v1)/0.05 - 1)
-    fraction = (v2 - 5)/3000
-    return 2000*(fraction - 3.e-9*exponential)
+# jacobian entries
+j00 = lambda x, y: (
+    1/r1 + 1/r2 + Io*np.exp((x - y)/vt)/vt)
+j01 = lambda x, y: (
+    -Io*np.exp((x - y)/vt)/vt)
+j10 = lambda x, y: (
+    Io*np.exp((x - y)/vt)/vt)
+j11 = lambda x, y: (
+    1/r3 + 1/r4 - Io*np.exp((x - y)/vt)/vt)
 
+def newtons_method(guess_v1, guess_v2):
+    e = 1.
+    v1, v2 = guess_v1, guess_v2
+    while e > 1.e-4:
+        # initialize matrix and vector
+        jacobian = [[j00(v1, v2), j01(v1, v2)],
+                    [j10(v1, v2), j11(v1, v2)]]
+        v = [v1_junction(v1, v2), v2_junction(v1, v2)]
+        
+        print(np.linalg.det(jacobian))
+        # solve linear equations and generate new v1 & v2
+        delta_v  = solve(jacobian, v)
+        v1prime, v2prime = np.array([v1, v2], float) - delta_v
+        
+        # calculate error & update v1, v2
+        error = 0.5*(v1prime - v1 + v2prime - v2)
+        v1, v2 = v1prime, v2prime
+        
+    return v1, v2
 
-def relax_bro(v1_initial, v2_initial):
-    old_v1, old_v2 = 0, 0 
-    new_v1, new_v2 = v1_initial, v2_initial
-    error = 1.
-
-    while error > 1.e-4:
-        old_v1, old_v2 = new_v1, new_v2
-        new_v1 = update_v1(old_v1, old_v2)
-        new_v2 = update_v2(old_v1, old_v2)
-
-        error = abs(new_v1 - old_v1) + abs(new_v2 - old_v2)
-
-    return new_v1, new_v2
-
-
-v1, v2 = relax_bro(2, 2)
-print(v1, v2)
+v1, v2 = newtons_method(1, 4)
+print(f"Voltage 1 is {v1:0.4f}")
+print(f"Voltage 2 is {v2:0.4f}")
+        
+        
