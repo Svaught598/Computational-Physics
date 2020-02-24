@@ -7,7 +7,8 @@ from scipy.constants import physical_constants
 import scipy.integrate as intg
 import numpy as np
 import matplotlib.pyplot as plt
-
+import gc as gc
+gc.collect()
 
 """ Part A ++++++++++++++++++++++++++++++++++++++++++++++++++++"""
 
