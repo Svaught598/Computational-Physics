@@ -9,7 +9,7 @@ coverage==5.0.3
 cycler==0.10.0
 decorator==4.4.1
 defusedxml==0.6.0
-Django==3.0.1
+Django==3.0.3
 entrypoints==0.3
 idna==2.8
 importlib-metadata==1.4.0
