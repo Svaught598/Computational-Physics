@@ -1,3 +1,5 @@
+VPATH=src:include
+
 main: main.cpp particle.o 
 	g++ particle.o -o main.exe main.cpp 
 
