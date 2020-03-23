@@ -1,6 +1,9 @@
+# must specify number of particles
+NUM = 10
+
 # plot settings and stuff
 set terminal pngcairo size 350,200 enhanced font 'Verdana,10'
-stats './out/output.txt' 
+stats './out/output.txt' nooutput
 set key noautotitle
 set xrange [0:100]
 set yrange [0:100]
@@ -9,7 +12,7 @@ do for [ii=1:STATS_blocks] {
     # set output of each data point to a png
     title = sprintf('./out/particle_frame%04d.png',ii)
     set output title
-    plot './out/output.txt' index ii u 1:2 with circles 
+    plot for [jj=0:NUM-1] './out/output.txt' index ii using 2:3 with circles 
     unset label
     set label  1 sprintf('%d seconds', ii*0.01) at 90, 90 right front font 'Verdana,12'
 }

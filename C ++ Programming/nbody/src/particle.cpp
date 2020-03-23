@@ -5,7 +5,7 @@ using namespace std;
 int GRID_SIZE_X = 100;
 int GRID_SIZE_Y = 100;
 
-void Particle::update(double timestep){
+void Particle::update(const float& timestep){
 
     // update positions
     x += vx*timestep;
@@ -32,7 +32,7 @@ void Particle::update(double timestep){
     }
 };
 
-void Particle::record(float time){
+void Particle::record(const float& timestep){
     // output positions to txt file
     ofstream out("./out/output.txt", ios::app);
     out << time << '\t' << x << '\t' << endl;

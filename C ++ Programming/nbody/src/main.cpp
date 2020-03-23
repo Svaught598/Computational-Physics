@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../include/particle.hpp"
 #include "../include/gnuplot.hpp"
+#include "../include/particlegod.hpp"
 
 using namespace std;
 
@@ -9,13 +10,13 @@ using namespace std;
 int main(void){
 
     // Initialize stuff
-    Particle particle(4, 40, 30, 2, 6);
+    ParticleGod handler(10);
     float timestep = 0.1;
 
     // loop through timesteps and update particle & record in txt file
     for (float t = 0; t<100; t += timestep){
-        particle.update(timestep);
-        particle.record(t+timestep);
+        handler.update_positions(timestep);
+        handler.record_positions(timestep);
     }
 
     // call gnuplot

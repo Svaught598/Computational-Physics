@@ -15,9 +15,6 @@
  * URL: https://github.com/martinruenz/gnuplot-cpp
  * AUTHOR: Martin Rünz, 2015
  */
-
-#pragma once
-
 #include <stdio.h>
 #include <string>
 #include <vector>
