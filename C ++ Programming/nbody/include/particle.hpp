@@ -15,11 +15,11 @@ class Particle
 
         // Default constructor
         Particle(){
-            mass = (double) srand()/RAND_MAX;
-            x = (double) srand()/RAND_MAX;
-            y = (double) srand()/RAND_MAX;
-            vx = (double) srand()/RAND_MAX;
-            vy = (double) srand()/RAND_MAX;
+            mass = (double) rand()/RAND_MAX;
+            x = (double) rand()/RAND_MAX;
+            y = (double) rand()/RAND_MAX;
+            vx = (double) rand()/RAND_MAX;
+            vy = (double) rand()/RAND_MAX;
         }
 
         // Constructor for initial conditions
@@ -34,5 +34,5 @@ class Particle
 
         // Method Declarations
         void update(double timestep);
-        void record();
+        void record(float time);
 };

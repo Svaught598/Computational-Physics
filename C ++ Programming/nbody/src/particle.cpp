@@ -1,4 +1,4 @@
-#include "particle.hpp"
+#include "../include/particle.hpp"
 #include <fstream>
 using namespace std;
 
@@ -32,9 +32,10 @@ void Particle::update(double timestep){
     }
 };
 
-void Particle::record(){
-
+void Particle::record(float time){
     // output positions to txt file
-    ofstream out("output.txt", ios::app);
-    out << x << '\t' << y << endl;
+    ofstream out("./out/output.txt", ios::app);
+    out << time << '\t' << x << '\t' << endl;
+    out << endl;
+    out << endl;
 };

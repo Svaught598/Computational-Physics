@@ -24,6 +24,7 @@
 #include <iostream>
 #include <fstream>
 
+
 class GnuplotPipe {
 public:
     inline GnuplotPipe(bool persist = true) {
@@ -38,7 +39,7 @@ public:
         if (pipe) pclose(pipe);
     }
 
-    void sendLine(const std::string& text, bool useBuffer = false){
+    void sendLine(const std::string& text, bool useBuffer = true){
         if (!pipe) return;
         if (useBuffer)
             buffer.push_back(text + "\n");
@@ -49,7 +50,7 @@ public:
         if (!pipe) return;
         for (unsigned i = 0; i < repeatBuffer; i++) {
             for (auto& line : buffer) fputs(line.c_str(), pipe);
-            fputs("e\n", pipe);
+            fputs("\n", pipe);
         }
         fflush(pipe);
         buffer.clear();
