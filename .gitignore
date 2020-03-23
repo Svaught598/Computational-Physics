@@ -1,0 +1,8 @@
+# stuff related to c++
+*.o
+*.txt
+*.exe
+
+# stuff related to python
+*.pyc
+*.ipynb
