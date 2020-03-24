@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <random>
+#include <cmath>
 
+using namespace std;
 
 
 class Particle
@@ -16,16 +18,18 @@ public:  // attributes +++++++++++++++++++++++++++
     double vy;
 
 public:  // constructors +++++++++++++++++++++++++
-    // Default constructor
-    Particle(){
+    // constructor for Random conditions
+    Particle(const int& seed){
         // between 0 and 100
         mass = (double) (rand()/RAND_MAX*100);
         x = (double) rand()/RAND_MAX*100;
         y = (double) rand()/RAND_MAX*100;
 
         // between -5 and 5
-        vx = (double) (rand()/RAND_MAX*2 - 1)*5;
-        vy = (double) (rand()/RAND_MAX*2 - 1)*5;
+        double theta = (double) rand();
+        double velocity = (double) rand()/RAND_MAX*10;
+        vx = velocity*cos(theta);
+        vy = velocity*sin(theta);
     }
 
     // Constructor for initial conditions

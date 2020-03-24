@@ -22,6 +22,6 @@ public: // methods ++++++++++++++++++++++++++++++
 
     void generate_random_particles(const int& num_particles);
     void update_positions(const float& time);
-    void record_positions(const float& time);
+    void record_positions(const int& time_step, const float& time);
 
 };

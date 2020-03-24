@@ -10,13 +10,16 @@ using namespace std;
 int main(void){
 
     // Initialize stuff
-    ParticleGod handler(10);
+    ParticleGod handler(100);
     float timestep = 0.1;
+    int index = 0;
 
     // loop through timesteps and update particle & record in txt file
-    for (float t = 0; t<100; t += timestep){
+    for (float t=0; t<500; t += timestep){
+
         handler.update_positions(timestep);
-        handler.record_positions(timestep);
+        handler.record_positions(index, timestep);
+        index++;
     }
 
     // call gnuplot
