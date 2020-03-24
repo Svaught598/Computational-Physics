@@ -6,6 +6,7 @@
 using namespace std;
 
 
+
 // entry point of program
 int main(void){
 
@@ -15,7 +16,7 @@ int main(void){
     int index = 0;
 
     // loop through timesteps and update particle & record in txt file
-    for (float t=0; t<500; t += timestep){
+    for (float t=0; t<250; t += timestep){
 
         handler.update_positions(timestep);
         handler.record_positions(index, timestep);

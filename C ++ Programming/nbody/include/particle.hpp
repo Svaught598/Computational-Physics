@@ -10,12 +10,16 @@ class Particle
 {
 public:  // attributes +++++++++++++++++++++++++++
     
+    // declare grid size
+    static const int GRID_SIZE_X = 100;
+    static const int GRID_SIZE_Y = 100;
+
     // Attribute Declarations
-    double mass;
     double x;
     double y;
     double vx;
     double vy;
+    double mass;
 
 public:  // constructors +++++++++++++++++++++++++
     // constructor for random conditions
@@ -42,6 +46,33 @@ public:  // constructors +++++++++++++++++++++++++
     }
 
 public:  // methods ++++++++++++++++++++++++++++++
-    void update(const float& timestep);
-    void record(const float& timestep);
+    void inline update(const float& timestep){
+
+        // update positions
+        x = x + vx*timestep;
+        y = y + vy*timestep;
+    }
+
+    void inline check_collisions(){
+
+        // Bounce off x boundaries
+        if (x > GRID_SIZE_X){
+            vx *= -1;
+            x = GRID_SIZE_X;
+        }
+        else if (x < 0){
+            vx *= -1;
+            x = 0;
+        }
+
+        // Bounce off y boundaries
+        if (y > GRID_SIZE_Y){
+            vy *= -1;
+            y = GRID_SIZE_Y;
+        }
+        else if (y < 0){
+            vy *= -1;
+            y = 0;
+        }
+    }
 };
