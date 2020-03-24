@@ -18,8 +18,8 @@ public:  // attributes +++++++++++++++++++++++++++
     double vy;
 
 public:  // constructors +++++++++++++++++++++++++
-    // constructor for Random conditions
-    Particle(const int& seed){
+    // constructor for random conditions
+    Particle(){
         // between 0 and 100
         mass = (double) (rand()/RAND_MAX*100);
         x = (double) rand()/RAND_MAX*100;

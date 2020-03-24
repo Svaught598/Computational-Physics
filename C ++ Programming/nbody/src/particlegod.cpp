@@ -11,7 +11,7 @@ void ParticleGod::generate_random_particles(const int& num_particles){
     
     // create some number of random particles put them in a attribute vector
     for (int i = 0; i<= num_particles; i++){
-        particles.push_back(Particle(i));
+        particles.push_back(Particle());
     }
 }
 
