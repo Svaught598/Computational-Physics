@@ -14,6 +14,13 @@ public:  // attributes +++++++++++++++++++++++++++
     static const int GRID_SIZE_X = 100;
     static const int GRID_SIZE_Y = 100;
 
+    // declare infection stuff
+    bool is_infected;
+    bool was_infected;
+    int duration;
+    static const int MAX_DURATION = 100;
+    
+
     // Attribute Declarations
     double x;
     double y;
@@ -22,6 +29,7 @@ public:  // attributes +++++++++++++++++++++++++++
     double mass;
 
 public:  // constructors +++++++++++++++++++++++++
+
     // constructor for random conditions
     Particle(){
         // between 0 and 100
@@ -45,7 +53,8 @@ public:  // constructors +++++++++++++++++++++++++
         vy = vy1;
     }
 
-public:  // methods ++++++++++++++++++++++++++++++
+public:  // inline methods ++++++++++++++++++++++++++++++
+
     void inline update(const float& timestep){
 
         // update positions
