@@ -1,6 +1,6 @@
 # must specify number of particles & iterations
-NUM_PARTICLES = 100
-NUM_ITER = 2500
+NUM_PARTICLES = 50
+NUM_ITER = 2000
 
 # plot settings and stuff
 set terminal pngcairo size 350,200 enhanced font 'Verdana,10'
