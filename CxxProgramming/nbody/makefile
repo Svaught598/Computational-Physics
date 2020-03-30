@@ -15,5 +15,8 @@ particlegod.o: $(INC)particle.hpp $(INC)particlegod.hpp
 clean:
 	rm ./*.o
 
+fuck:
+	rm ./out/*.txt ./out/*.png
+
 run:
 	./out/main.exe
