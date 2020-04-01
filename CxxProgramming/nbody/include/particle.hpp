@@ -4,6 +4,8 @@
 #include <random>
 #include <cmath>
 
+#include "../include/settings.hpp"
+
 using namespace std;
 
 
@@ -12,44 +14,52 @@ class Particle
 public:  // attributes +++++++++++++++++++++++++++
     
     // declare some constants
-    static const int GRID_SIZE_X = 100;
-    static const int GRID_SIZE_Y = 100;
-    static const int radius = 1;
+    static const int GRID_SIZE_X = 50;
+    static const int GRID_SIZE_Y = 50;
 
     // Attribute Declarations
-    double x;
-    double y;
-    double vx;
-    double vy;
+    float x;
+    float y;
+    float vx;
+    float vy;
     int id;
+    float radius;
+
+    // Infection Attributes
+    Status status = SUSCEPTIBLE;
+    int time_infected = 0;
+
+
+
 
 public:  // constructors +++++++++++++++++++++++++
 
-    // constructor for random conditions
-    Particle(int index)
+    // constructor for random conditions & infections
+    Particle(int index, bool infected)
     {
         // between 0 and 100
-        x = (double) rand()/RAND_MAX*100;
-        y = (double) rand()/RAND_MAX*100;
+        x = (double) rand()/RAND_MAX*50;
+        y = (double) rand()/RAND_MAX*50;
 
         // between -5 and 5
-        double theta = (double) rand();
-        double velocity = 5;
+        float theta = (double) rand();
+        float velocity = 5;
         vx = velocity*cos(theta);
         vy = velocity*sin(theta);
 
-        // id declaration
+        // other attributes
         id = index;
+        radius = _radius; 
+        if (infected)
+        {
+            status = INFECTED;
+        }
+        else 
+        {
+            status = SUSCEPTIBLE;
+        }
     }
 
-    // Constructor for initial conditions
-    Particle(const double& m, const double& x1, const double& y1, const double& vx1, const double& vy1)
-    {
-        x = x1;
-        y = y1;
-        vx = vx1;
-        vy = vy1;
-    }
 
 public:  // inline methods +++++++++++++++++++++++
 
