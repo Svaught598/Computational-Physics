@@ -34,8 +34,8 @@ public:  // constructors +++++++++++++++++++++++++
     Particle(int index, bool infected)
     {
         // between 0 and 100
-        x = (double) rand()/RAND_MAX*50;
-        y = (double) rand()/RAND_MAX*50;
+        x = (double) rand()/RAND_MAX*GRID_SIZE_X;
+        y = (double) rand()/RAND_MAX*GRID_SIZE_Y;
 
         // between -5 and 5
         float theta = (double) rand();
