@@ -44,7 +44,7 @@ void ParticleGod::update(const float &time)
         if (particle.status == INFECTED)
         {
             particle.time_infected += 1;
-            particle.status = (particle.time_infected >= RecoveryTime) ? RECOVERED : INFECTED;
+            particle.status = (particle.time_infected >= RECOVERY_TIME) ? RECOVERED : INFECTED;
         }
     }
 }
@@ -68,7 +68,7 @@ void ParticleGod::check_collisions()
                     float y2 = target.y;
                     float distance_2 = (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
                     float distance = sqrtf(distance_2);
-                    float overlap = 0.5*(distance - _radius*2);
+                    float overlap = 0.5*(distance - RADIUS*2);
                     
                     // Move the particles
                     particle.x -= overlap*(x1 - x2)/distance;
@@ -87,7 +87,7 @@ void ParticleGod::check_collisions()
 void ParticleGod::record_positions(const int& time_step, const float& time)
 {
     // create buffer so we only write once (because stream overhead is HUGE)
-    const int buff_size = _number_of_particles*_number_of_particles;
+    const int buff_size = NUM_PARTICLES*NUM_PARTICLES;
     char buffer[buff_size];
     int cx = 0;
     vector<int> stats = get_statuses();

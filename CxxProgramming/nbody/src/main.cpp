@@ -33,15 +33,15 @@ int main(int argc, char *argv[]){
     }
     
     // Initialize stuff
-    ParticleGod simulation(_number_of_particles, _number_of_infected);
+    ParticleGod simulation(NUM_PARTICLES, NUM_INFECTED);
     int index = 0;
 
     // loop through timesteps and update particle & record in txt file
-    for (float t=0; t<_total_time; t += _timestep){
+    for (float t=0; t<TOTAL_TIME; t += TIMESTEP){
 
-        simulation.update(_timestep);
+        simulation.update(TIMESTEP);
         simulation.check_collisions();
-        simulation.record_positions(index, _timestep);
+        simulation.record_positions(index, TIMESTEP);
         index++;
     }
     // plot stuff

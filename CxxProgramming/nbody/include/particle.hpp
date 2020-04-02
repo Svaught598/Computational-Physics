@@ -45,7 +45,7 @@ public:  // constructors +++++++++++++++++++++++++
 
         // other attributes
         id = index;
-        radius = _radius; 
+        radius = RADIUS; 
 
         // infected or not
         if (infected)
