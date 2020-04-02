@@ -36,6 +36,7 @@ public: // methods +++++++++++++++++++++++++++++++
     void update(const float &time);
     void check_collisions();
     void record_positions(const int& time_step, const float& time);
+    void record_cases(int timestep);
 
 public: // inline methods ++++++++++++++++++++++++
 

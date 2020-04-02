@@ -25,7 +25,7 @@ do for [ii=1:NUM_ITER-1] {
     set yrange [0:100]
     set title sprintf('%d timesteps', ii) font 'Verdana,12'
     unset colorbox
-    plot infile using 2:3:4 every :::0::0 with points pt 7 ps 3 lc palette
+    plot infile using 2:3:4 every :::0::0 with points pt 7 ps 2 lc palette
     unset title
     unset xrange
     unset yrange

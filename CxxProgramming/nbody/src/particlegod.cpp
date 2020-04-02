@@ -86,13 +86,13 @@ void ParticleGod::check_collisions()
 
 void ParticleGod::record_positions(const int& time_step, const float& time)
 {
-    // create buffer so we only write once (because stream overhead is HUGE)
+    // create buffer so we only write once (because stream overhead is HUGE apparently)
     const int buff_size = NUM_PARTICLES*NUM_PARTICLES;
     char buffer[buff_size];
     int cx = 0;
     vector<int> stats = get_statuses();
 
-    // record positions of each particle controlled by the GOD
+    // record positions of each particle controlled by the ParticleGod
     int length_of_vector = particles.size();
     for (int i = 0; i < length_of_vector; i++)
     {
@@ -113,5 +113,23 @@ void ParticleGod::record_positions(const int& time_step, const float& time)
     char filename[100];
     sprintf(filename, "./out/timestep%05d.txt", time_step);
     ofstream out(filename);
+    out << buffer;
+}
+
+void ParticleGod::record_cases(int timestep)
+{
+    // create buffer so we only write once
+    const int buff_size = NUM_PARTICLES*NUM_PARTICLES;
+    char buffer[buff_size];
+    int cx = 0;
+
+    vector<int> stats = get_statuses();
+    int healthy = stats[0] + stats[2];
+    int cases = stats[1];
+
+    // create unique filename & output buffer to file (100 is arbitrary length)
+    char filename[100];
+    sprintf(buffer, "%d\t%d\t%d\n", timestep, healthy, cases);
+    ofstream out("./out/cases.txt", std::ios::app);
     out << buffer;
 }

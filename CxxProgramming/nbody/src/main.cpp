@@ -11,7 +11,7 @@ void plot()
 {
     // call gnuplot
     GnuplotPipe gpp;
-    gpp.sendLine("NUM_PARTICLES = 50");
+    gpp.sendLine("NUM_PARTICLES = 200");
     gpp.sendLine("NUM_ITER = 1000");
     gpp.sendLine("load 'commands.gnu");
     gpp.sendEndOfData();
@@ -42,6 +42,7 @@ int main(int argc, char *argv[]){
         simulation.update(TIMESTEP);
         simulation.check_collisions();
         simulation.record_positions(index, TIMESTEP);
+        simulation.record_cases(index);
         index++;
     }
     // plot stuff
