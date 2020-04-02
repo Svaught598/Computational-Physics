@@ -39,9 +39,9 @@ public:  // constructors +++++++++++++++++++++++++
 
         // between -5 and 5
         float theta = (double) rand();
-        float velocity = 5;
-        vx = velocity*cos(theta);
-        vy = velocity*sin(theta);
+        float VELOCITY = 5;
+        vx = VELOCITY*cos(theta);
+        vy = VELOCITY*sin(theta);
 
         // other attributes
         id = index;
