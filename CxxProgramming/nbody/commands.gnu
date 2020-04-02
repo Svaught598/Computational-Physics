@@ -1,7 +1,3 @@
-# must specify number of particles & iterations
-NUM_PARTICLES = 200
-NUM_ITER = 1000
-
 # Setting stuff for color palette
 set cbrange [1:3]
 set palette model RGB defined (1 "blue", 2 "dark-green", 3 "dark-yellow")
@@ -25,8 +21,8 @@ do for [ii=1:NUM_ITER-1] {
     set ytics scale default
     set lmargin at screen 0.05
     set rmargin at screen 0.7
-    set xrange [0:50]
-    set yrange [0:50]
+    set xrange [0:100]
+    set yrange [0:100]
     set title sprintf('%d timesteps', ii) font 'Verdana,12'
     unset colorbox
     plot infile using 2:3:4 every :::0::0 with points pt 7 ps 3 lc palette
