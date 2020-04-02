@@ -75,9 +75,13 @@ public: // inline methods ++++++++++++++++++++++++
         float x2 = target.x;
         float y1 = particle.y;
         float y2 = target.y;
-        if (((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)) <= 4){
+        float min_dist_2 = (particle.radius + target.radius)*(particle.radius + target.radius);
+
+        // if distance between centers is less that sum of radii
+        if (((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)) <= min_dist_2){
             return true;
         }
+        // else they don't overlap
         return false;
     }
 

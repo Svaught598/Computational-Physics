@@ -13,10 +13,6 @@ class Particle
 {
 public:  // attributes +++++++++++++++++++++++++++
     
-    // declare some constants
-    static const int GRID_SIZE_X = 50;
-    static const int GRID_SIZE_Y = 50;
-
     // Attribute Declarations
     float x;
     float y;
@@ -50,6 +46,8 @@ public:  // constructors +++++++++++++++++++++++++
         // other attributes
         id = index;
         radius = _radius; 
+
+        // infected or not
         if (infected)
         {
             status = INFECTED;
