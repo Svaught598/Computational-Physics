@@ -22,6 +22,13 @@ public: // constructors ++++++++++++++++++++++++++
         total = num_particles;
     }
 
+    // Constructor for some still particles
+    ParticleGod(int num_particles, int num_infected, int num_still)
+    {
+        generate_infected_particles(num_particles, num_infected, num_still);
+        total = num_particles;
+    }
+
     // Copy constructor
     ParticleGod(const ParticleGod &god)
     {
@@ -31,16 +38,18 @@ public: // constructors ++++++++++++++++++++++++++
 
 public: // methods +++++++++++++++++++++++++++++++
 
-    void generate_random_particles(const int& num_particles);
+    void generate_random_particles(int num_particles);
     void generate_infected_particles(int num_particles, int num_infected);
-    void update(const float &time);
+    void generate_infected_particles(int num_particles, int num_infected, int num_still);
+    void update(float time);
     void check_collisions();
-    void record_positions(const int& time_step, const float& time);
+    void record_positions(int time_step, float time);
     void record_cases(int timestep);
 
 public: // inline methods ++++++++++++++++++++++++
 
-    vector<int> inline get_statuses()
+
+    vector<int> get_statuses()
     {
         // Iniitailize counts to 0
         vector<int> r(3, 0);
@@ -70,7 +79,8 @@ public: // inline methods ++++++++++++++++++++++++
         return r;
     }
 
-    bool inline do_particles_overlap(Particle &particle, Particle &target)
+
+    bool do_particles_overlap(Particle &particle, Particle &target)
     {
         float x1 = particle.x;
         float x2 = target.x;
@@ -86,7 +96,8 @@ public: // inline methods ++++++++++++++++++++++++
         return false;
     }
 
-    void inline particle_collision(Particle &particle, Particle &target, float distance)
+
+    void particle_collision(Particle &particle, Particle &target, float distance)
     {
         // Positions
         float x1 = particle.x;
@@ -104,17 +115,29 @@ public: // inline methods ++++++++++++++++++++++++
         float nx = (x2 - x1)/distance;
         float ny = (y2 - y1)/distance;
         float m = -nx/ny;
-        float d1 = (vx1 + vy1*m)/(1 + m*m);
-        float d2 = (vx2 + vy2*m)/(1 + m*m);
+        float d = (1 + m*m);
 
         // New Velocities
-        particle.vx = 2*d1 - vx1;
-        particle.vy = 2*d1*m - vy1;
-        target.vx = 2*d2 - vx2;
-        target.vy = 2*d2*m - vy2;
+        particle.vx = (vx1 - vx1*m*m + 2*m*vy1)/d;
+        particle.vy = (2*m*vx1 + m*m*vy1 - vy1)/d;
+        target.vx = (vx2 - vx2*m*m + 2*m*vy2)/d;
+        target.vy = (2*m*vx2 + m*m*vy2 - vy2)/d;
+
+        // check to see if either particle is still
+        if (particle.still)
+        {
+            particle.vx = 0;
+            particle.vy = 0;
+        }
+        if (target.still)
+        {
+            target.vx = 0;
+            target.vy = 0;
+        }
     }
 
-    void inline particle_infection(Particle &particle, Particle &target)
+
+    void particle_infection(Particle &particle, Particle &target)
     {
         // Unpack statuses to make code readable
         int stat1 = particle.status;

@@ -20,6 +20,7 @@ public:  // attributes +++++++++++++++++++++++++++
     float vy;
     int id;
     float radius;
+    bool still;
 
     // Infection Attributes
     Status status = SUSCEPTIBLE;
@@ -31,21 +32,22 @@ public:  // attributes +++++++++++++++++++++++++++
 public:  // constructors +++++++++++++++++++++++++
 
     // constructor for random conditions & infections
-    Particle(int index, bool infected)
+    Particle(int index, bool infected, bool is_still)
     {
         // between 0 and 100
         x = (double) rand()/RAND_MAX*GRID_SIZE_X;
         y = (double) rand()/RAND_MAX*GRID_SIZE_Y;
 
-        // between -5 and 5
-        float theta = (double) rand();
-        float VELOCITY = 5;
-        vx = VELOCITY*cos(theta);
-        vy = VELOCITY*sin(theta);
-
         // other attributes
         id = index;
         radius = RADIUS; 
+        still = is_still;
+
+        // Still or not
+        float theta = (double) rand();
+        float VELOCITY = 5;
+        vx = (still) ? 0 : VELOCITY*cos(theta);
+        vy = (still) ? 0 : VELOCITY*sin(theta);
 
         // infected or not
         if (infected)

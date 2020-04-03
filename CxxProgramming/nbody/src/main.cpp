@@ -12,7 +12,7 @@ void plot()
     // call gnuplot
     GnuplotPipe gpp;
     gpp.sendLine("NUM_PARTICLES = 200");
-    gpp.sendLine("NUM_ITER = 1000");
+    gpp.sendLine("NUM_ITER = 3000");
     gpp.sendLine("load 'commands.gnu");
     gpp.sendEndOfData();
     return;
@@ -33,7 +33,7 @@ int main(int argc, char *argv[]){
     }
     
     // Initialize stuff
-    ParticleGod simulation(NUM_PARTICLES, NUM_INFECTED);
+    ParticleGod simulation(NUM_PARTICLES, NUM_INFECTED, NUM_STILL);
     int index = 0;
 
     // loop through timesteps and update particle & record in txt file
