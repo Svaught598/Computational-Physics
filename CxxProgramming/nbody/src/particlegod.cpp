@@ -13,24 +13,51 @@ void ParticleGod::generate_infected_particles(int num_particles, int num_infecte
 {    
     // create some number of random particles put them in a attribute vector
     particles.reserve(num_particles);
-    helper.reserve(num_particles);
     for (int i = 0; i< num_particles; i++){
+
+        // Infected particles
         if (i < num_infected)
         {
-            particles.push_back(Particle(i, true));
+            particles.push_back(Particle(i, true, false));
         }
+
+        // Healthy Particles
         else
         {
-            particles.push_back(Particle(i, false));
+            particles.push_back(Particle(i, false, false));
         }
     }
-
-    // copy the particle vector to a helper vector
-    helper = particles;
 }
 
 
-void ParticleGod::update(const float &time)
+void ParticleGod::generate_infected_particles(int num_particles, int num_infected, int num_still)
+{
+    // create some number of random particles put them in a attribute vector
+    particles.reserve(num_particles);
+    for (int i = 0; i< num_particles; i++){
+
+        // INfected Particles
+        if (i < num_infected)
+        {
+            particles.push_back(Particle(i, true, false));
+        }
+
+        // Still Particles
+        if (i < num_infected + num_still)
+        {
+            particles.push_back(Particle(i, false, true));
+        }
+
+        // Healthy Particles
+        else
+        {
+            particles.push_back(Particle(i, false, false));
+        }
+    }
+}
+
+
+void ParticleGod::update(float time)
 {
     // Update particle stuff
     for (auto &particle: particles)
@@ -76,6 +103,12 @@ void ParticleGod::check_collisions()
                     target.x += overlap*(x1 - x2)/distance;
                     target.y += overlap*(y1 - y2)/distance;
 
+                    // move back if still particle
+                    particle.x = (particle.still) ? x1 : particle.x;
+                    particle.y = (particle.still) ? y1 : particle.y;
+                    target.x = (target.still) ? x2 : target.x;
+                    target.y = (target.still) ? y2 : target.y;
+
                     particle_collision(particle, target, distance);
                     particle_infection(particle, target);
                 }
@@ -84,7 +117,7 @@ void ParticleGod::check_collisions()
     }
 }
 
-void ParticleGod::record_positions(const int& time_step, const float& time)
+void ParticleGod::record_positions(int time_step, float time)
 {
     // create buffer so we only write once (because stream overhead is HUGE apparently)
     const int buff_size = NUM_PARTICLES*NUM_PARTICLES;
