@@ -112,16 +112,28 @@ public: // inline methods ++++++++++++++++++++++++
         float vy2 = target.vy;
 
         // Intermediate Calculations
-        float nx = (x2 - x1)/distance;
-        float ny = (y2 - y1)/distance;
-        float m = -nx/ny;
-        float d = (1 + m*m);
+        float nx = (target.x - particle.x)/distance;
+        float ny = (target.y - particle.y)/distance;
+        float tx = -ny;
+        float ty = nx;
+        float tan1 = vx1*tx + vy1*ty;
+        float tan2 = vx2*tx + vy2*ty;
+        float dp1 = vx1*nx + vy1*ny;
+        float dp2 = vx2*nx + vy2*ny;
 
         // New Velocities
-        particle.vx = (vx1 - vx1*m*m + 2*m*vy1)/d;
-        particle.vy = (2*m*vx1 + m*m*vy1 - vy1)/d;
-        target.vx = (vx2 - vx2*m*m + 2*m*vy2)/d;
-        target.vy = (2*m*vx2 + m*m*vy2 - vy2)/d;
+        particle.vx = tx*tan1 + nx*dp2;
+        particle.vy = ty*tan1 + ny*dp2;
+        target.vx =tx*tan2 + nx*dp1;
+        target.vy = ty*tan2 + ny*dp1;
+
+        // Renormalize
+        float v1 = sqrtf(particle.vx*particle.vx + particle.vy*particle.vy);
+        particle.vx = particle.vx/v1*VELOCITY;
+        particle.vy = particle.vy/v1*VELOCITY;
+        float v2 = sqrtf(target.vx*target.vx + target.vy*target.vy);
+        target.vx = target.vx/v2*VELOCITY;
+        target.vy = target.vy/v2*VELOCITY;
 
         // check to see if either particle is still
         if (particle.still)

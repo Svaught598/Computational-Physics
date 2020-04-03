@@ -45,7 +45,6 @@ public:  // constructors +++++++++++++++++++++++++
 
         // Still or not
         float theta = (double) rand();
-        float VELOCITY = 5;
         vx = (still) ? 0 : VELOCITY*cos(theta);
         vy = (still) ? 0 : VELOCITY*sin(theta);
 
