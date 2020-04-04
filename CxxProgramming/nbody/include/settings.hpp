@@ -4,7 +4,7 @@
 // Simulation settings
 static const int NUM_PARTICLES = 200;
 static const int NUM_INFECTED = 1;
-static const int NUM_STILL = 150;
+static const int NUM_STILL = 0;
 static const float TIMESTEP = 0.05;
 static const float TOTAL_TIME = 100;
 static const int GRID_SIZE_X = 100;

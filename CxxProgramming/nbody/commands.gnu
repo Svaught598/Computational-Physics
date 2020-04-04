@@ -1,3 +1,6 @@
+NUM_PARTICLES = 200
+NUM_ITER = 1999
+
 # Setting stuff for color palette
 set cbrange [1:3]
 set palette model RGB defined (1 "blue", 2 "dark-green", 3 "dark-yellow")

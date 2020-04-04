@@ -12,7 +12,7 @@ void plot()
     // call gnuplot
     GnuplotPipe gpp;
     gpp.sendLine("NUM_PARTICLES = 200");
-    gpp.sendLine("NUM_ITER = 3000");
+    gpp.sendLine("NUM_ITER = 1999");
     gpp.sendLine("load 'commands.gnu");
     gpp.sendEndOfData();
     return;
