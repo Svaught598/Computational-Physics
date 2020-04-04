@@ -8,9 +8,20 @@
 #include "../include/particle.hpp"
 #include "../include/settings.hpp"
 
-void ParticleGod::generate_particles(int num_particles)
+void ParticleGod::generate_particles()
 {
-    // TODO: generate particles on a quasi random grid.
+    int idx = 1;
+    // Generate particles on a quasi random grid 
+    // each particle has a unique id (idx)
+    for (int i=10; i<GRID_SIZE_X; i+=10)
+    {
+        for (int j=10; j<GRID_SIZE_Y;j+=10)
+        {
+            cout << i << "\t" << j << "\n";
+            particles.push_back(Particle(idx, i, j));
+            idx += 1;
+        }
+    }
 }
 
 void ParticleGod::update(float time)
@@ -67,13 +78,12 @@ void ParticleGod::record_positions(int time_step, float time)
     int cx = 0;
 
     // record positions of each particle controlled by the ParticleGod
-    int length_of_vector = particles.size();
-    for (int i = 0; i < length_of_vector; i++)
+    for (auto &particle: particles)
     {
         // cx is updated so we don't overwrite the buffer
         cx += std::snprintf(buffer+cx, buff_size-cx, 
-            "%d\t%0.3f\t%0.3f\t%d\n", 
-            time_step, particles[i].x, particles[i].y, particles[i].status);
+            "%d\t%0.3f\t%0.3f\n", 
+            time_step, particle.x, particle.y);
     }
 
     // create unique filename & output buffer to file (100 is arbitrary length)

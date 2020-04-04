@@ -12,15 +12,16 @@ public: // attributes ++++++++++++++++++++++++++++
 public: // constructors ++++++++++++++++++++++++++
 
     // N # of random particles
-    ParticleGod(int num_particles, int num_infected)
+    ParticleGod()
     {
-        generate_particles(num_particles);
-        total = num_particles;
+        particles.reserve(100);
+        generate_particles();
+        total = particles.size();
     }
 
 public: // methods +++++++++++++++++++++++++++++++
 
-    void generate_particles(int num_particles);
+    void generate_particles();
     void update(float time);
     void check_collisions();
     void record_positions(int time_step, float time);

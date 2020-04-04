@@ -23,20 +23,22 @@ public:  // attributes +++++++++++++++++++++++++++
 
 public:  // constructors +++++++++++++++++++++++++
 
-    // constructor for random conditions & infections
-    Particle(int index, bool infected, bool is_still)
+    // constructor for particle placed at x0,y0 w/ random displacements
+    Particle(int index, float x0, float y0)
     {
-        //TODO: change constructor to place particle about some point with minor variation
-        // between 0 and 100
-        x = (double) rand()/RAND_MAX*GRID_SIZE_X;
-        y = (double) rand()/RAND_MAX*GRID_SIZE_Y;
+        // Place particle at x0,y0 with small displacement
+        //x = (float) x0 + (rand()*2/RAND_MAX - 1)*FLUCT_MAX;
+        //y = (float) y0 + (rand()*2/RAND_MAX - 1)*FLUCT_MAX;
+        x = x0;
+        y = y0;
+
 
         // other attributes
         id = index;
         radius = RADIUS;
 
-        // Still or not
-        float theta = (double) rand();
+        // Velocity
+        float theta = (float) rand();
         vx = VELOCITY*cos(theta);
         vy = VELOCITY*sin(theta);
     }

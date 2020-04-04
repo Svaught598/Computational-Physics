@@ -11,7 +11,7 @@ void plot()
 {
     // call gnuplot
     GnuplotPipe gpp;
-    gpp.sendLine("NUM_PARTICLES = 200");
+    gpp.sendLine("NUM_PARTICLES = 100");
     gpp.sendLine("NUM_ITER = 1999");
     gpp.sendLine("load 'commands.gnu");
     gpp.sendEndOfData();
@@ -33,16 +33,14 @@ int main(int argc, char *argv[]){
     }
     
     // Initialize stuff
-    ParticleGod simulation(NUM_PARTICLES, NUM_INFECTED, NUM_STILL);
+    ParticleGod simulation;
     int index = 0;
 
     // loop through timesteps and update particle & record in txt file
-    for (float t=0; t<TOTAL_TIME; t += TIMESTEP){
-
+    for (float t=0; t<TOTAL_TIME; t += TIMESTEP)
+    {
         simulation.update(TIMESTEP);
-        simulation.check_collisions();
         simulation.record_positions(index, TIMESTEP);
-        simulation.record_cases(index);
         index++;
     }
     // plot stuff
