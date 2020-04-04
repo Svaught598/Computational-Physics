@@ -27,11 +27,8 @@ public:  // constructors +++++++++++++++++++++++++
     Particle(int index, float x0, float y0)
     {
         // Place particle at x0,y0 with small displacement
-        //x = (float) x0 + (rand()*2/RAND_MAX - 1)*FLUCT_MAX;
-        //y = (float) y0 + (rand()*2/RAND_MAX - 1)*FLUCT_MAX;
-        x = x0;
-        y = y0;
-
+        x = (float) x0 + (rand()*2/RAND_MAX - 1);
+        y = (float) y0 + (rand()*2/RAND_MAX - 1);
 
         // other attributes
         id = index;
