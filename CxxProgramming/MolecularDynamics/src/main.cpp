@@ -39,7 +39,9 @@ int main(int argc, char *argv[]){
     // loop through timesteps and update particle & record in txt file
     for (float t=0; t<TOTAL_TIME; t += TIMESTEP)
     {
+        //simulation.check_collisions();
         simulation.update(TIMESTEP);
+        simulation.new_accelerations();
         simulation.record_positions(index, TIMESTEP);
         index++;
     }

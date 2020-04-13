@@ -23,6 +23,7 @@ public: // methods +++++++++++++++++++++++++++++++
 
     void generate_particles();
     void update(float time);
+    void new_accelerations();
     void check_collisions();
     void record_positions(int time_step, float time);
     void record_velocities();
@@ -49,26 +50,26 @@ public: // inline methods ++++++++++++++++++++++++
     void particle_collision(Particle &particle, Particle &target, float distance)
     {
         // Positions
-        float x1 = particle.x;
-        float x2 = target.x;
-        float y1 = particle.y;
-        float y2 = target.y;
+        double x1 = particle.x;
+        double x2 = target.x;
+        double y1 = particle.y;
+        double y2 = target.y;
 
         // Velocities
-        float vx1 = particle.vx;
-        float vx2 = target.vx;
-        float vy1 = particle.vy;
-        float vy2 = target.vy;
+        double vx1 = particle.vx;
+        double vx2 = target.vx;
+        double vy1 = particle.vy;
+        double vy2 = target.vy;
 
         // Intermediate Calculations
-        float nx = (target.x - particle.x)/distance;
-        float ny = (target.y - particle.y)/distance;
-        float tx = -ny;
-        float ty = nx;
-        float tan1 = vx1*tx + vy1*ty;
-        float tan2 = vx2*tx + vy2*ty;
-        float dp1 = vx1*nx + vy1*ny;
-        float dp2 = vx2*nx + vy2*ny;
+        double nx = (target.x - particle.x)/distance;
+        double ny = (target.y - particle.y)/distance;
+        double tx = -ny;
+        double ty = nx;
+        double tan1 = vx1*tx + vy1*ty;
+        double tan2 = vx2*tx + vy2*ty;
+        double dp1 = vx1*nx + vy1*ny;
+        double dp2 = vx2*nx + vy2*ny;
 
         // New Velocities
         particle.vx = tx*tan1 + nx*dp2;
@@ -76,6 +77,7 @@ public: // inline methods ++++++++++++++++++++++++
         target.vx =tx*tan2 + nx*dp1;
         target.vy = ty*tan2 + ny*dp1;
 
+        /*
         // Renormalize
         float v1 = sqrtf(particle.vx*particle.vx + particle.vy*particle.vy);
         particle.vx = particle.vx/v1*VELOCITY;
@@ -83,5 +85,6 @@ public: // inline methods ++++++++++++++++++++++++
         float v2 = sqrtf(target.vx*target.vx + target.vy*target.vy);
         target.vx = target.vx/v2*VELOCITY;
         target.vy = target.vy/v2*VELOCITY;
+        */
     }
 };

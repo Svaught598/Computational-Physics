@@ -10,7 +10,7 @@ main: particlegod.o $(SRC)main.cpp
 
 particlegod.o: $(INC)particle.hpp $(INC)particlegod.hpp 
 	g++ -g -c $(SRC)particlegod.cpp 
-
+	
 # shortcut commands
 clean:
 	rm ./*.o 

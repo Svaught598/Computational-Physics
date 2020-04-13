@@ -18,6 +18,8 @@ public:  // attributes +++++++++++++++++++++++++++
     float y;
     float vx;
     float vy;
+    float ax;
+    float ay;
     int id;
     float radius;
 
@@ -34,10 +36,12 @@ public:  // constructors +++++++++++++++++++++++++
         id = index;
         radius = RADIUS;
 
-        // Velocity
+        // Velocity & acceleration
         float theta = (float) rand();
         vx = VELOCITY*cos(theta);
         vy = VELOCITY*sin(theta);
+        ax = 0;
+        ay = 0;
     }
 
 

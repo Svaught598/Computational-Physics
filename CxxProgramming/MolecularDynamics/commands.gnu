@@ -1,5 +1,5 @@
 NUM_PARTICLES = 200
-NUM_ITER = 1999
+NUM_ITER = 4000
 
 # Setting stuff for color palette
 set cbrange [1:3]
@@ -23,8 +23,8 @@ do for [ii=1:NUM_ITER-1] {
     set ytics scale default
     set lmargin at screen 0.05
     set rmargin at screen 0.7
-    set xrange [0:100]
-    set yrange [0:100]
+    set xrange [0:60]
+    set yrange [0:60]
     set title sprintf('%d timesteps', ii) font 'Verdana,12'
     unset colorbox
     plot infile using 2:3 pt 7 ps 1 
@@ -34,7 +34,7 @@ do for [ii=1:NUM_ITER-1] {
 system('rm ./out/particle.mp4')
 ENCODER = system('which ffmpeg')
 if (strlen(ENCODER)==0) print '=== ffmpeg not found, exit ==='; exit
-CMD = "ffmpeg -start_number 1 -framerate 60 -i ./out/particle_frame%05d.png -c:v libx264 -pix_fmt yuv420p ./out/particle.mp4"
+CMD = "ffmpeg -start_number 1 -framerate 120 -i ./out/particle_frame%05d.png -c:v libx264 -pix_fmt yuv420p ./out/particle.mp4"
 system(CMD)
 
 # Clear directories
