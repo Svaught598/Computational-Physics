@@ -16,6 +16,12 @@ D = 0.1     #thermal diffusivity
 N = 100     #No. of grid divisions
 a = L/N     #grid spacing
 h = 1.e-2   #timestep
+seasons = {
+    1: "Spring",
+    2: "Summer",
+    3: "Autumn",
+    4: "Winter"
+}
 
 
 # initialize
@@ -52,15 +58,17 @@ t_min = 365*9
 
 # loop through every three months
 for t_max in [365*9 + i*(365//4) for i in range(4)]:
-	# find new temps & plot them
-	temps_ten = iterate(temps_ten,t_min,t_max)
-	plt.plot(temps_ten,label=f"{t_max%365/(365//4)} Quarter Year")
+    # find new temps & plot them
+    temps_ten = iterate(temps_ten,t_min,t_max)
+    index = int(t_max%365/(365//4)+1)
+    plt.plot(temps_ten,label=f"{seasons[index]}")
 
     # move min time up for next iteration
-	t_min = t_max
+    t_min = t_max
 
 
+# Plotting stuff
 plt.legend()
-plt.xlabel("x")
-plt.ylabel("T")
+plt.xlabel("Depth (meters)")
+plt.ylabel("Temperature (Celsius)")
 plt.show()
