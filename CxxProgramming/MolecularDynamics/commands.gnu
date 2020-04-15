@@ -1,5 +1,6 @@
-NUM_PARTICLES = 200
-NUM_ITER = 4000
+NUM_PARTICLES = 100
+NUM_ITER = 20000
+outfile = sprintf('./out/particle_frame19999.png')
 
 # Setting stuff for color palette
 set cbrange [1:3]
@@ -23,8 +24,8 @@ do for [ii=1:NUM_ITER-1] {
     set ytics scale default
     set lmargin at screen 0.05
     set rmargin at screen 0.7
-    set xrange [0:60]
-    set yrange [0:60]
+    set xrange [0:50]
+    set yrange [0:50]
     set title sprintf('%d timesteps', ii) font 'Verdana,12'
     unset colorbox
     plot infile using 2:3 pt 7 ps 1 

@@ -13,9 +13,9 @@ void ParticleGod::generate_particles()
     int idx = 1;
     // Generate particles on a quasi random grid 
     // each particle has a unique id (idx)
-    for (int i=8; i<GRID_SIZE_X; i+=8)
+    for (int i=5; i<GRID_SIZE_X; i+=5)
     {
-        for (int j=8; j<GRID_SIZE_Y;j+=8)
+        for (int j=5; j<GRID_SIZE_Y;j+=5)
         {
             particles.push_back(Particle(idx, i, j));
             idx += 1;
@@ -66,6 +66,7 @@ void ParticleGod::new_accelerations()
             rx = particle.x - target.x;
             ry = particle.y - target.y;
             r2 = sqrtf(rx*rx + ry*ry);
+            r2 = (r2 < 0.9) ? 0.9 : r2;
             nx = rx/r2;
             ny = ry/r2;
 

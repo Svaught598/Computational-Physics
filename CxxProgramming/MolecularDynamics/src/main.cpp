@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "../include/particle.hpp"
 #include "../include/gnuplot.hpp"
 #include "../include/particlegod.hpp"
@@ -16,6 +17,13 @@ void plot()
     gpp.sendLine("load 'commands.gnu");
     gpp.sendEndOfData();
     return;
+}
+
+
+void parallel_plot()
+{
+    //call gnuplot
+    //std::for_each(std::execution)
 }
 
 
