@@ -62,15 +62,34 @@ void ParticleGod::new_accelerations()
             // Don't count force between particle and itself!
             if (particle.id == target.id) continue;
 
-            // Distance between particle centers & normal vector along that axis
+            // find x distance between nearest version of target particle
             rx = particle.x - target.x;
+            if (rx > GRID_SIZE_X/2)
+            {
+                rx -= GRID_SIZE_X;
+            }
+            if (ry < -1*GRID_SIZE_X/2)
+            {
+                rx += GRID_SIZE_X;
+            }
+
+            // find y distance between nearest version of target particle
             ry = particle.y - target.y;
+            if (ry > GRID_SIZE_Y/2)
+            {
+                ry -= GRID_SIZE_Y;
+            }
+            if (ry < -1*GRID_SIZE_Y/2)
+            {
+                ry += GRID_SIZE_Y;
+            }
+
+            // Distance between particle centers & normal vector along that axis
             r2 = sqrtf(rx*rx + ry*ry);
             r2 = (r2 < 0.9) ? 0.9 : r2;
             nx = rx/r2;
             ny = ry/r2;
 
-            
             // accelerations from potential & add to particle accels.
             accel = (2*powf((1/r2),13) - powf((1/r2),7));
             particle.ax += accel*nx;
@@ -135,7 +154,7 @@ void ParticleGod::record_positions(int time_step, float time)
 
     // create unique filename & output buffer to file (100 is arbitrary length)
     char filename[100];
-    sprintf(filename, "./out/timestep%05d.txt", time_step);
+    sprintf(filename, "./out/timestep%06d.txt", time_step);
     ofstream out(filename);
     out << buffer;
 }
