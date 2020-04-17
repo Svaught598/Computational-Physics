@@ -57,8 +57,8 @@ def iterate(phi, psi):
 
 # Animation Initialization
 fig = plt.figure()
-ax = plt.axes(xlim = (0,1), ylim = (-.005,.005))
-frame, = ax.plot([],[], lw = 2)
+ax = plt.axes(xlim = (0,1), ylim = (-.001,.001))
+frame, = ax.plot([],[], lw = 3)
 
 # Addding frames
 frame_list = []
