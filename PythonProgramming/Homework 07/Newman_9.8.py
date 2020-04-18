@@ -76,7 +76,7 @@ def banded(Aa,va,up,down):
 V = np.zeros(N+1, complex)
 xs = np.linspace(0, L, N+1)
 psi = np.zeros(N+1, complex)
-psi[0:N+1] = np.exp(-(xs[0:N+1] - x0)**2/(2*sigma*sigma)) * np.exp(kappa*xs[0:N+1]*1j)
+psi[0:N+1] = cexp(-(xs[0:N+1] - x0)**2/(2*sigma*sigma)) * cexp(kappa*xs[0:N+1]*1j)
 
 # Then some complex numbers
 a1 = complex(1, h*hbar/(2*M*a*a))
@@ -91,7 +91,7 @@ A[1,:] = a1
 A[2,:] = a2
 
 # Function to perform one iteration of the calculation
-def iterate(_V, _psi, ):
+def iterate(_V, _psi):
     V[1:N] = b1*_psi[1:N] + b2*(_psi[2:N+1] + _psi[0:N-1])
     psi = banded(A, V, 1, 1)
     return V, psi
