@@ -19,8 +19,8 @@ kappa = 5.0e10  # 1/meters
 M = 9.109e-31   # kg (mass of electron)
 a = L/N         # slice size
 hbar = 6.62e-34 # reduced plancks constant
-timestep = h = 1.e-19
-tmax = 1.0e-16  # max time
+timestep = h = 1.e-18
+tmax = 1.0e-14  # max time
 
 
 # Taken from Newman's online resources
@@ -83,33 +83,37 @@ ibs = dst(i_psi)
 k = np.array([i+1 for i in range(N+1)])
 t = 1e-16
 def iterate(psi, t):
-    cs = (rbs*np.cos(np.pi**2*hbar*hbar/(2*M*k*k*L*L)*t)) \
-    - (ibs*np.sin(np.pi**2*hbar*hbar/(2*M*k*k*L*L)*t))
+    rbs = dst(psi.real)
+    ibs = dst(psi.imag)
+    cs = (rbs*np.cos(np.pi**2*hbar*k*k/(2*M*L*L)*t)) \
+    - (ibs*np.sin(np.pi**2*hbar*k*k/(2*M*L*L)*t))
     cs *= np.sin(np.pi*k*xs/N)
     psi = idst(cs)
     psi *= np.sin(np.pi*k*xs/N)
-    return psi, cs
+    return psi
 
 # plotting one iteration at t = 1.e-16
-new_psi, _ = iterate(psi, t)
-plt.plot(xs, psi)
+print(np.max(psi))
+new_psi = iterate(psi, 1.e-16)
+plt.plot(xs, new_psi)
 plt.show()
+print(np.max(psi))
 
 
 """ Part C ++++++++++++++++++++++++++++++++++++++++++++++++++++++++"""
-
 
 # Iterations...
 real_psis = []
 t = 0
 while t < tmax:
-    psi, cs = iterate(psi, t)
-    real_psis.append(psi)
+    new_psi = iterate(psi, 1.e-16)
+    real_psis.append(new_psi)
+    new_psi, psi = psi, new_psi
     t += h
 
 # Animation Initialization
 fig = plt.figure()
-ax = plt.axes(ylim = (-1, 1))
+ax = plt.axes(ylim = (-.1, .1))
 frame, = ax.plot([],[], lw = 3)
 
 # Generating Frames
@@ -120,6 +124,7 @@ for p in real_psis:
     frame_list.append([frame,])
 
 # Showing animation
+print("done plotting!")
 anim = animation.ArtistAnimation(fig, frame_list, interval = 20, blit = True)
 plt.show()
 

@@ -17,22 +17,22 @@ delta = 1.0
 omega = 0.9
 
 # Initialization
-phi = np.ones([M+1,M+1],float)
-phi[1,:] = Vplus
-delta = 0
+phi = np.zeros([M+1,M+1],float)
+phi[0,:] = Vplus
 
 # break when we reach target accuracy
 while delta > target:
     
+    delta = 0
     # Updating Potential
     for i in range(1,M):
         for j in range(1,M):
-            difference = (phi[i+1,j] + phi[i-1,j] + phi[i,j+1] + phi[i,j-1])/4 - phi[i,j]
-            phi[i,j] = phi[i,j] + (1 + omega)*difference
+            diff = (phi[i+1,j] + phi[i-1,j] + phi[i,j+1] + phi[i,j-1])/4 - phi[i,j]
+            phi[i,j] = phi[i,j] + (1 + omega) * diff
 
             # updating delta
-            if difference > delta: 
-                delta = difference
+            if diff > delta:
+                delta = diff
 
 
 # Plotting Stuff
