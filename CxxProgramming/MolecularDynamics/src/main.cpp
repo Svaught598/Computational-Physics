@@ -1,4 +1,5 @@
 #include <iostream>
+#include <omp.h>
 #include "../include/particle.hpp"
 #include "../include/gnuplot.hpp"
 #include "../include/particlegod.hpp"
@@ -19,6 +20,45 @@ void plot()
 }
 
 
+void parallel_plot(int index)
+{
+    #pragma omp parallel for
+    for (int i=0; i <= index; i += 1)
+    {
+        char infile[100];
+        char outfile[100];
+        char title[100];
+
+        sprintf(infile, "infile = './out/timestep%06d.txt'", i);
+        sprintf(outfile, "outpng = './out/particle_frame%06d.png'", i);
+        sprintf(title, "set title '%d Timesteps' font 'Verdana,12'", i);
+
+        GnuplotPipe gpp;
+        gpp.sendLine(infile);
+        gpp.sendLine(outfile);
+        gpp.sendLine("set terminal pngcairo size 800,500 enhanced font 'Verdana,10'");
+        gpp.sendLine("set datafile nofpe_trap");
+        gpp.sendLine("set key noautotitle");
+        gpp.sendLine("set output outpng");
+        gpp.sendLine("set border lw 2");
+        gpp.sendLine("set xtics scale default");
+        gpp.sendLine("set ytics scale default");
+        gpp.sendLine("set lmargin at screen 0.05");
+        gpp.sendLine("set rmargin at screen 0.7");
+        gpp.sendLine("set xrange [0:50]");
+        gpp.sendLine("set yrange [0:50]");
+        gpp.sendLine(title);
+        gpp.sendLine("plot infile using 2:3 pt 7 ps 1");
+        //gpp.sendEndOfData();
+    }
+}
+
+void ffmpegify()
+{
+    system("ffmpeg -start_number 1 -framerate 120 -i ./out/particle_frame%06d.png -c:v libx264 -pix_fmt yuv420p ./out/particle.mp4");
+}
+
+
 // entry point of program
 int main(int argc, char *argv[]){
 
@@ -27,7 +67,7 @@ int main(int argc, char *argv[]){
     {
         if (std::string(argv[i]) == "--plot")
         {
-            plot();
+            parallel_plot(2000);
             return 0;
         }
     }
@@ -39,12 +79,15 @@ int main(int argc, char *argv[]){
     // loop through timesteps and update particle & record in txt file
     for (float t=0; t<TOTAL_TIME; t += TIMESTEP)
     {
+        //simulation.check_collisions();
         simulation.update(TIMESTEP);
+        simulation.new_accelerations();
         simulation.record_positions(index, TIMESTEP);
         index++;
     }
     // plot stuff
-    plot();
+    parallel_plot(index);
+    ffmpegify();
     return 0;
 };
 

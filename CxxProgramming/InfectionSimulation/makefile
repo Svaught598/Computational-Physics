@@ -6,7 +6,7 @@ OUT=./out/
 all: main
 
 main: particlegod.o $(SRC)main.cpp
-	g++ particlegod.o -g -o $(OUT)main.exe $(SRC)main.cpp $(INC)gnuplot.hpp $(INC)settings.hpp
+	g++ particlegod.o -g -o $(OUT)main.exe $(SRC)main.cpp 
 
 particlegod.o: $(INC)particle.hpp $(INC)particlegod.hpp 
 	g++ -g -c $(SRC)particlegod.cpp 

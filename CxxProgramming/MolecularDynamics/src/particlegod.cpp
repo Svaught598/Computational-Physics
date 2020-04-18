@@ -13,11 +13,10 @@ void ParticleGod::generate_particles()
     int idx = 1;
     // Generate particles on a quasi random grid 
     // each particle has a unique id (idx)
-    for (int i=10; i<GRID_SIZE_X; i+=10)
+    for (int i=5; i<GRID_SIZE_X; i+=5)
     {
-        for (int j=10; j<GRID_SIZE_Y;j+=10)
+        for (int j=5; j<GRID_SIZE_Y;j+=5)
         {
-            cout << i << "\t" << j << "\n";
             particles.push_back(Particle(idx, i, j));
             idx += 1;
         }
@@ -30,41 +29,108 @@ void ParticleGod::update(float time)
     for (auto &particle: particles)
     {
         // update positions
-        particle.x += particle.vx*time;
-        particle.y += particle.vy*time;
+        particle.x += particle.vx*time + particle.ax*time*time*0.5;
+        particle.y += particle.vy*time + particle.ay*time*time*0.5;
+
+        // update velocities
+        particle.vx += particle.ax*time;
+        particle.vy += particle.ay*time;
+
+        // check boundaries
         particle.boundary_check();
+    }
+}
+
+
+void ParticleGod::new_accelerations()
+{
+    for (auto &particle: particles)
+    {
+        // initialize accel to 0 and declare working variables
+        particle.ax = 0;
+        particle.ay = 0;
+        double rx = 0;
+        double ry = 0;
+        double r2 = 0;
+
+        double nx = 0;
+        double ny = 0;
+        double accel = 0;
+
+        for (auto &target: particles)
+        {
+            // Don't count force between particle and itself!
+            if (particle.id == target.id) continue;
+
+            // find x distance between nearest version of target particle
+            rx = particle.x - target.x;
+            if (rx > GRID_SIZE_X/2)
+            {
+                rx -= GRID_SIZE_X;
+            }
+            if (ry < -1*GRID_SIZE_X/2)
+            {
+                rx += GRID_SIZE_X;
+            }
+
+            // find y distance between nearest version of target particle
+            ry = particle.y - target.y;
+            if (ry > GRID_SIZE_Y/2)
+            {
+                ry -= GRID_SIZE_Y;
+            }
+            if (ry < -1*GRID_SIZE_Y/2)
+            {
+                ry += GRID_SIZE_Y;
+            }
+
+            // Distance between particle centers & normal vector along that axis
+            r2 = sqrtf(rx*rx + ry*ry);
+            r2 = (r2 < 0.9) ? 0.9 : r2;
+            nx = rx/r2;
+            ny = ry/r2;
+
+            // accelerations from potential & add to particle accels.
+            accel = (2*powf((1/r2),13) - powf((1/r2),7));
+            particle.ax += accel*nx;
+            particle.ay += accel*ny;
+
+        }
     }
 }
 
 
 void ParticleGod::check_collisions()
 {
-    for (auto &particle: particles)
-    {
-        for (auto &target: particles)
-        {
-            if (particle.id != target.id)
-            {
-                // If particles overlap some amount
-                if (do_particles_overlap(particle, target))
-                {   
-                    // Calculate overlap between particles
-                    float x1 = particle.x;
-                    float x2 = target.x;
-                    float y1 = particle.y;
-                    float y2 = target.y;
-                    float distance_2 = (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
-                    float distance = sqrtf(distance_2);
-                    float overlap = 0.5*(distance - RADIUS*2);
-                    
-                    // Move the particles
-                    particle.x -= overlap*(x1 - x2)/distance;
-                    particle.y -= overlap*(y1 - y2)/distance;
-                    target.x += overlap*(x1 - x2)/distance;
-                    target.y += overlap*(y1 - y2)/distance;
 
-                    particle_collision(particle, target, distance);
-                }
+    for (int i=0; i < total; ++i)
+    {
+        for (int j=i+1; j<total; ++j)
+        {   
+
+            // references for readability
+            Particle &particle = particles[i];
+            Particle &target = particles[j];
+
+            // If particles overlap some amount
+            if (do_particles_overlap(particle, target))
+            {   
+                // Calculate overlap between particles
+                float x1 = particle.x;
+                float x2 = target.x;
+                float y1 = particle.y;
+                float y2 = target.y;
+                float distance_2 = (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
+                float distance = sqrtf(distance_2);
+                float overlap = 0.5*(distance - RADIUS*2);
+                
+                // Move the particles
+                particle.x -= overlap*(x1 - x2)/distance;
+                particle.y -= overlap*(y1 - y2)/distance;
+                target.x += overlap*(x1 - x2)/distance;
+                target.y += overlap*(y1 - y2)/distance;
+
+                particle_collision(particle, target, distance);
             }
         }
     }
@@ -88,7 +154,7 @@ void ParticleGod::record_positions(int time_step, float time)
 
     // create unique filename & output buffer to file (100 is arbitrary length)
     char filename[100];
-    sprintf(filename, "./out/timestep%05d.txt", time_step);
+    sprintf(filename, "./out/timestep%06d.txt", time_step);
     ofstream out(filename);
     out << buffer;
 }

@@ -36,7 +36,7 @@ public:
         if (pipe) pclose(pipe);
     }
 
-    void sendLine(const std::string& text, bool useBuffer = true){
+    void sendLine(const std::string& text, bool useBuffer = false){
         if (!pipe) return;
         if (useBuffer)
             buffer.push_back(text + "\n");
